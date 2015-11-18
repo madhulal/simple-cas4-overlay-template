@@ -1,4 +1,4 @@
-CAS4 Overlay Template
+CAS4 Overlay Project for Mozanta
 ============================
 
 Generic CAS maven war overlay to exercise the latest versions of CAS 4.x line. This overlay could be freely used as a starting template for local CAS maven war overlays.
@@ -11,13 +11,25 @@ Generic CAS maven war overlay to exercise the latest versions of CAS 4.x line. T
 # Recommended Requirements
 * JDK 1.7+
 
-# Configuration 
+# Configuration
+
+##Mongodb
+The connection details are now configured in deployerConfigContext.xml
+localhost:27017/test/
+Collection name is users
+The column names are username and password
+
+We use BCrypt for password encryption.
+So for registering user we have another project using the same encryption
+https://github.com/madhulal/pocs/tree/master/registration
+
+##Unix Users
 The `etc` directory contains the configuration files that need to be copied to `/etc/cas`.
 Or use symbolic link for development
 mozanta@mozanta:/etc$ sudo ln -s /home/mozanta/projects/mozanta/idea/git/simple-cas4-overlay-template/etc/cas/
 
 ##Windows users
-Copy the contents of etc/cas to C:\
+Copy the contents of etc/cas to C:\. So you will have a cas directory in C: drive.
 
 ###Modify the propertyFileConfigurer.xml and update the line
 <util:properties id="casProperties" location="file:/etc/cas/cas.properties" />
@@ -50,7 +62,7 @@ mvnw.bat clean package
 
 # Deployment
 
-## Embedded Jetty(Already done Leave it)
+## Embedded Jetty(Already done. Leave it)
 
 * Create a Java keystore at `/etc/cas/jetty/thekeystore` with the password `changeit`. 
 * Import your CAS server certificate inside this keystore.

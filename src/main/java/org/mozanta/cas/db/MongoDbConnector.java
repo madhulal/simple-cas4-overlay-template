@@ -7,6 +7,7 @@ import org.jasig.cas.authentication.UsernamePasswordCredential;
 import org.jasig.cas.authentication.handler.support.AbstractUsernamePasswordAuthenticationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
@@ -27,33 +28,46 @@ public class MongoDbConnector extends AbstractUsernamePasswordAuthenticationHand
 
     private String password;
 
+    private MongoClient mongoClient;
+
+    private DBCollection usersCollection;
+
     @Override
     protected final HandlerResult authenticateUsernamePasswordInternal(final UsernamePasswordCredential credential)
             throws GeneralSecurityException, PreventedException {
 
-        final String encryptedPassword = getPasswordEncoder().encode(credential.getPassword());
-        MongoClient mongoClient;
-        try {
-            mongoClient = new MongoClient(databaseHost, databasePort);
-        } catch (UnknownHostException e) {
-            logger.error("UnknownHostException " + e);
-            throw new GeneralSecurityException(e);
-        }
+        // querying mongo db for user name
+        final BasicDBObject query = new BasicDBObject(username, credential.getUsername());
+        final DBCursor cursor = getUsersCollection().find(query);
 
-        final DB db = mongoClient.getDB(databaseName);
-        final DBCollection usersCollection = db.getCollection(userCollection);
-
-        // querying mongo db.
-        final BasicDBObject query = new BasicDBObject(username, credential.getUsername()).append(password, encryptedPassword);
-        final DBCursor cursor = usersCollection.find(query);
-        try {
-            while (cursor.hasNext()) {
-                return createHandlerResult(credential, this.principalFactory.createPrincipal(credential.getUsername()), null);
+        if (cursor.hasNext()) {
+            try {
+                //Get the password
+                final String encryptedDbPassword = (String) cursor.next().get(password);
+                if (BCrypt.checkpw(credential.getPassword(), encryptedDbPassword))
+                    return createHandlerResult(credential, this.principalFactory.createPrincipal(credential.getUsername()), null);
+            } finally {
+                cursor.close();
             }
-        } finally {
-            cursor.close();
         }
+
         return null;
+    }
+
+    private DBCollection getUsersCollection() {
+        if (null == usersCollection) {
+            if (null == mongoClient) {
+                try {
+                    mongoClient = new MongoClient(databaseHost, databasePort);
+                } catch (UnknownHostException e) {
+                    logger.error("UnknownHostException " + e);
+                    throw new RuntimeException(e);
+                }
+            }
+            final DB db = mongoClient.getDB(databaseName);
+            usersCollection = db.getCollection(userCollection);
+        }
+        return usersCollection;
     }
 
     public String getDatabaseHost() {
