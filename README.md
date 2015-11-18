@@ -45,7 +45,9 @@ mvnw jetty:run-forked
 CAS will be available at:
 
 * `http://cas.server.name:8080/cas`
+* `http://localhost:8080/cas`
 * `https://cas.server.name:8443/cas`
+* `https://localhost:8443/cas`
 
 ## External
 Deploy resultant `target/cas.war` to a Servlet container of choice.

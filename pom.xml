@@ -81,6 +81,9 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <apache.commons.dbcp.version>1.4</apache.commons.dbcp.version>
+        <spring.mongodb.version>1.8.0.RELEASE</spring.mongodb.version>
+        <net.unicon.cas.addons.version>1.18</net.unicon.cas.addons.version>
     </properties>
 
     <repositories>
