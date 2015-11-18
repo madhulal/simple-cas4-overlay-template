@@ -32,9 +32,9 @@ mozanta@mozanta:/etc$ sudo ln -s /home/mozanta/projects/mozanta/idea/git/simple-
 Copy the contents of etc/cas to C:\. So you will have a cas directory in C: drive.
 
 ###Modify the propertyFileConfigurer.xml and update the line
-<util:properties id="casProperties" location="file:/etc/cas/cas.properties" />
+`<util:properties id="casProperties" location="file:/etc/cas/cas.properties" />`
 to
-<util:properties id="casProperties" location="file:C:\cas\cas.properties" />
+`<util:properties id="casProperties" location="file:C:\cas\cas.properties" />`
 
 ###Modify C:\cas\jetty\jetty-ssl.xml
 Search for '/etc/cas/jetty/' and replace them with 'C:\cas\jetty\'
@@ -58,6 +58,10 @@ or
 
 ```bash(Windows)
 mvnw.bat clean package
+
+or
+
+mvn clean package
 ```
 
 # Deployment

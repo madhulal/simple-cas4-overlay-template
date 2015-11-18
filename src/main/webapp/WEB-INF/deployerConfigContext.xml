@@ -105,22 +105,22 @@
     <bean id="primaryAuthenticationHandler" class="org.mozanta.cas.db.MongoDbConnector"
           abstract="false" lazy-init="default" autowire="default">
         <property name="databaseHost">
-            <value>localhost</value>
+            <value>${mongodb.server.name}</value>
         </property>
         <property name="databasePort">
-            <value>27017</value>
+            <value>${mongodb.server.port}</value>
         </property>
         <property name="databaseName">
-            <value>test</value>
+            <value>${mongodb.database.name}</value>
         </property>
         <property name="userCollection">
-            <value>users</value>
+            <value>${mongodb.collection.user}</value>
         </property>
         <property name="username">
-            <value>username</value>
+            <value>${mongodb.user.username}</value>
         </property>
         <property name="password">
-            <value>password</value>
+            <value>${mongodb.user.password}</value>
         </property>
     </bean>
 
