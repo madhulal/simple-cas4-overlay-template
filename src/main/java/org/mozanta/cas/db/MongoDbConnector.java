@@ -41,7 +41,7 @@ public class MongoDbConnector extends AbstractJdbcUsernamePasswordAuthentication
     protected final HandlerResult authenticateUsernamePasswordInternal(final UsernamePasswordCredential credential)
             throws GeneralSecurityException, PreventedException {
 
-        final String encyptedPassword = getPasswordEncoder().encode(credential.getPassword());
+        final String encryptedPassword = getPasswordEncoder().encode(credential.getPassword());
         MongoClient mongoClient = null;
         try {
             mongoClient = new MongoClient(databaseHost, databasePort);
@@ -57,7 +57,7 @@ public class MongoDbConnector extends AbstractJdbcUsernamePasswordAuthentication
         final DBCollection coll = db.getCollection(userCollection);
 
         // querying mongo db. v
-        final BasicDBObject query = new BasicDBObject(username, credential.getUsername()).append(password, encyptedPassword);
+        final BasicDBObject query = new BasicDBObject(username, credential.getUsername()).append(password, encryptedPassword);
         final DBCursor cursor = coll.find(query);
         try {
             while (cursor.hasNext()) {
