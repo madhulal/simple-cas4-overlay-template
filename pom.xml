@@ -3,18 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd ">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.mozanta</groupId>
-    <artifactId>cas</artifactId>
+    <groupId>net.unicon</groupId>
+    <artifactId>cas4-overlay</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
 
     <build>
         <plugins>
-        	<plugin>
-		        <groupId>com.rimerosolutions.maven.plugins</groupId>
-		        <artifactId>wrapper-maven-plugin</artifactId>
-		        <version>0.0.4</version>
-		    </plugin>
+            <plugin>
+		 <groupId>com.rimerosolutions.maven.plugins</groupId>
+		 <artifactId>wrapper-maven-plugin</artifactId>
+		 <version>0.0.4</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -47,7 +47,7 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${maven-jetty-plugin.version}</version>
                 <configuration>
-                    <jettyXml>${basedir}/etc/cas/jetty/jetty.xml,${basedir}/etc/cas/jetty/jetty-ssl.xml,${basedir}/etc/cas/jetty/jetty-https.xml</jettyXml>
+                    <jettyXml>${basedir}/etc/jetty/jetty.xml,${basedir}/etc/jetty/jetty-ssl.xml,${basedir}/etc/jetty/jetty-https.xml</jettyXml>
                     <systemProperties>
                         <systemProperty>
                             <name>org.eclipse.jetty.annotations.maxWait</name>
@@ -56,8 +56,7 @@
                     </systemProperties>
                     <webApp>
                         <contextPath>/cas</contextPath>
-                        <overrideDescriptor>${basedir}/etc/cas/jetty/web.xml</overrideDescriptor>
-                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                        <overrideDescriptor>${basedir}/etc/jetty/web.xml</overrideDescriptor>
                     </webApp>
                     <jvmArgs>-Xdebug -Xrunjdwp:transport=dt_socket,address=5000,server=y,suspend=n</jvmArgs>
                 </configuration>
@@ -74,27 +73,22 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-mongodb</artifactId>
-            <version>${spring.mongodb.version}</version>
-            <scope>compile</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.jasig.cas</groupId>
-            <artifactId>cas-server-core</artifactId>
+            <artifactId>cas-server-support-saml</artifactId>
             <version>${cas.version}</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
         </dependency>
+
     </dependencies>
 
     <properties>
-        <cas.version>4.1.1</cas.version>
-        <maven-jetty-plugin.version>9.3.3.v20150827</maven-jetty-plugin.version>
+        <cas.version>4.1.2</cas.version>
+        <maven-jetty-plugin.version>9.3.6.v20151106</maven-jetty-plugin.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.mongodb.version>1.8.0.RELEASE</spring.mongodb.version>
     </properties>
 
     <repositories>
