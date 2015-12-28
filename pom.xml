@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd ">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.unicon</groupId>
-    <artifactId>cas4-overlay</artifactId>
+    <groupId>org.mozanta</groupId>
+    <artifactId>cas-khrws</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
 
@@ -57,6 +57,7 @@
                     <webApp>
                         <contextPath>/cas</contextPath>
                         <overrideDescriptor>${basedir}/etc/jetty/web.xml</overrideDescriptor>
+                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                     </webApp>
                     <jvmArgs>-Xdebug -Xrunjdwp:transport=dt_socket,address=5000,server=y,suspend=n</jvmArgs>
                 </configuration>
@@ -75,6 +76,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring.mongodb.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.jasig.cas</groupId>
             <artifactId>cas-server-support-saml</artifactId>
             <version>${cas.version}</version>
@@ -89,6 +97,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.mongodb.version>1.8.0.RELEASE</spring.mongodb.version>
     </properties>
 
     <repositories>
