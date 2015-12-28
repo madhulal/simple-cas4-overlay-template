@@ -15,7 +15,7 @@ Generic CAS maven war overlay to exercise the latest versions of CAS 4.x line. T
 
 ##Mongodb
 The connection details are now configured in deployerConfigContext.xml
-localhost:27017/test/
+localhost:27017/khrws/
 Collection name is users
 The column names are username and password
 
@@ -64,8 +64,14 @@ mvnw.bat clean package
 
 ## Embedded Jetty(Already done. Leave it)
 
-* Create a Java keystore at `/etc/cas/jetty/thekeystore` with the password `changeit`. 
-* Import your CAS server certificate inside this keystore.
+* Create a Java keystore at `/etc/cas/jetty/thekeystore` with the password `changeit`. (Alias given is casjetty)
+  [keytool -genkey -alias casjetty -keyalg RSA -validity 1100 -keystore thekeystore]
+* Import your CAS server certificate inside this keystore.[Not sure]
+* Generate the crt
+  [keytool -export -alias casjetty -keystore keystore.jks -rfc -file casjetty.crt]
+* You can then import the casjetty.crt into other JVM keystore's by executing a command similar to this:
+  sudo keytool -import -file casjetty.crt -keystore /usr/lib/jvm/java-8-oracle/jre/lib/security/cacerts -alias casjetty
+
 
 ```bash
 mvnw jetty:run-forked
